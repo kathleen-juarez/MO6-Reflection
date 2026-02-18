@@ -12,7 +12,7 @@ format:
     footer: Mein3D CEP
     transition: slide
     transition-speed: default
-    incremental: false
+    incremental: true
     toc: true
     toc-depth: 1
     slide-number: true
@@ -34,139 +34,148 @@ execute:
 
 ## In Step 1, you learned how to design stunning presentation slides with Quarto. What's your impression of the Revealjs presentation? Describe its capabilities as you learned from the presentations. What are its strengths and weaknesses compared with PPT
 
+My impression of RevealJS is that it’s powerful but more technical than PowerPoint. I learned that it can do things like incremental lists, slide transitions, speaker notes, columns, and custom themes. It’s especially useful for presentations that include code or data because everything can be built and customized through Quarto and CSS.
+
+One big strength is how much control you have over the design and layout. You can really customize everything, but it also has a learning curve such as small coding mistakes can cause errors, and it takes more time to set up compared to PowerPoint.
+
+PowerPoint is much easier and more straightforward to use. It’s better for quick, simple presentations. Overall, RevealJS is more flexible, but PowerPoint is more user-friendly
+
 ## In Step 2, you were asked to create a Revealjs presentation. Provide a link to the presentation you published on the web. Add at least one reproducible chart or table in the presentation. Briefly describe what the presentation is about. What did you learn from the experience of the Revealjs presentation?
 
-See the [presentation](#presentation) for more details
+#### See the [presentation](#presentation) for more details
 
 ## Pick three different functions, each from a different category. Describe when to use them and give one coding example along with an output for each function. To clarify, you are expected to do literate programming to weave your narratives with the code
 
-# Revealjs is Cool! A Presentation by Kathleen {#presentation}
 
-## Slide 1
+## between()
+Use between(x, left, right) when you want to filter values that fall within a range (inclusive
+```{r}
+library(dplyr)
+
+# Keep only cars with mpg between 20 and 30 (inclusive)
+cars_20_30 <- mtcars %>%
+  tibble::rownames_to_column("model") %>%
+  filter(between(mpg, 20, 30)) %>%
+  select(model, mpg, hp) %>%
+  head(6)
+
+cars_20_30
+
+```
+
+## case_when()
+when you need if/else logic with multiple conditions to create a new variable
+```{r}
+mpg_groups <- 
+  mtcars %>%
+  tibble::rownames_to_column("model") %>%
+  mutate( mpg_group = case_when(
+      mpg >= 25 ~ "High MPG",
+      mpg >= 18 & mpg < 25 ~ "Medium MPG",
+      TRUE ~ "Low MPG")) %>%
+  select(model, mpg, mpg_group) %>%
+  head(8)
+
+mpg_groups
+```
+
+## across()
+when you want to apply the same function to multiple columns at once
+```{r}
+summary_stats <- 
+  mtcars %>%
+  summarize(
+     across( where(is.numeric),
+      list(mean = mean, sd = sd),
+      .names = "{.col}_{.fn}" ))
+
+summary_stats
+```
+
+# Presentation Portion of Assignment
+
+# CEP: Mein3D (Group 2) {#presentation}
+
+## Industry Size and Market Share
+
+|                  |                  |                    |
+|------------------|------------------|--------------------|
+| Company          | Estimated Share  | Estimated Revenue  |
+| My3DSelfie       | 15–25%           | \$7.5–\$12.5M      |
+| Shrunk3D         | 8–15%            | \$4–\$7.5M         |
+| ME in 3D         | 0.3–0.6%         | \$150–\$300K       |
+| Humano3D         | 0.3–0.6%         | \$150–\$300K       |
+| Shapify          | \<2%             | \<\$1M             |
+| All Other Firms  | 55–70%           | \$27.5–\$35M       |
 
 ::: {.alert .alert-primary}
-This should appear in your custom primary color.
+The resulting figures represent informed analytical estimates rather than audited financial data and should be interpreted as approximate indicators of market structure and relative competitive positioning. 
 :::
 
 ------------------------------------------------------------------------
 
 ## Competitive Analysis
 
-![](presentation thing.png)
+![](presentation%20thing.png)
 
 ------------------------------------------------------------------------
 
-# Slide 3
+# AO 5:
+
+To assess whether AI-personalized email sequences (follow-ups, triggered recommendations) increase high-value behaviors such as booking appointments, uploading photos, or repeat purchases
 
 ------------------------------------------------------------------------
 
-# Section: Lists & Fragments
+# AO 5 Methodology
 
 ------------------------------------------------------------------------
 
-## Incremental lists (automatic)
+## Approach
 
--   First point appears
--   Then this one
--   Then this one
-
-> Because `incremental: true` is set in YAML, lists reveal item-by-item.
+-   Implement AI-personalized follow-ups and triggered recommendations
+-   Compare outcomes against non-personalized email sequences
+-   Use experimentation to evaluate effectiveness
 
 ------------------------------------------------------------------------
 
-## Manual incremental list (only some items)
+## Analysis
 
 ::: nonincremental
--   This appears immediately (NOT incremental)
--   This also appears immediately
+-   Logistic Regression: Estimate likelihood of key actions (booking, uploading, repurchasing)
 :::
 
 ::: incremental
--   This starts incremental (manual)
--   Then this
--   Then this
+-   ANOVA - comparing treatment vs. control groups
 :::
 
 ------------------------------------------------------------------------
 
-## Fragments (fine-grained control)
-
-Use fragments when you want *non-list* elements to appear stepwise:
-
-[This appears first.]{.fragment}
-
-<p class="fragment">
-
-This appears second (a paragraph).
-
-</p>
-
-::: fragment
-A whole block can be a fragment too.
-:::
-
-------------------------------------------------------------------------
-
-## Content overflow (scroll inside slide)
-
-Sometimes text is too long. You can make a scrollable region:
-
-::: scroll-box
-**Scrollable content area** - Line 1 - Line 2 - Line 3 - Line 4 - Line 5 - Line 6 - Line 7 - Line 8 - Line 9 - Line 10 - Line 11 - Line 12 - Line 13 - Line 14 - Line 15
-:::
-
-------------------------------------------------------------------------
-
-## Columns
-
-::: columns
-::: column width="55%" \### Left column - Bullet A - Bullet B - Bullet C
-:::
-
-::: column width="45%" \### Right column A figure, callout, or small table fits well here.
-
-> Tip: Use columns for “copy + visual” layouts. ::::::::
-
-::::
-
-------------------------------------------------------------------------
-
-## Speaker notes
-
-Visible to you (Presenter View), hidden from audience.
-
-::: notes
-Talk track: - Define the KPI - Explain what “incremental lists” means - Call out how overflow is handled with `.scroll-box`
-:::
-
-------------------------------------------------------------------------
-
-## Asides & Footnotes
-
-### Aside (small side note)
-
-::: aside
-This is an **aside**. It’s useful for secondary info that shouldn’t compete with the main message.
-:::
+## 
 
 ### Footnote example
 
-This statement has a footnote.[^1]
+Information derived from the Mein3D website.[^1]
 
-[^1]: Footnotes work in revealjs and are great for small citations or clarifications.
-
-------------------------------------------------------------------------
-
-# Section: Theme & Styling
+[^1]: My 3D Selfie. (n.d.). My3DSelfie. Retrieved February 2, 2025, from https://www.my3dselfie.com/
 
 ------------------------------------------------------------------------
+
+## Columns example
 
 ::::: columns
 ::: {.column width="50%"}
-cool cool McGruel
+Group 2
 :::
 
 ::: {.column width="50%"}
-That's what she said
+1.  Nerina Campos
+
+2.  Jessica Garcia
+
+3.  Kathleen Juarez
+
+4.  Krystal Lee
+
+5.  Serena Shi
 :::
 :::::
