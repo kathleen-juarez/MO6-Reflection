@@ -9,7 +9,7 @@ format:
     theme: default 
     width: 1600
     height: 900
-    footer: Look! It's a footer! 
+    footer: Mein3D CEP
     transition: slide
     transition-speed: default
     incremental: false
@@ -50,7 +50,9 @@ This should appear in your custom primary color.
 
 ------------------------------------------------------------------------
 
-## Slide 2
+## Competitive Analysis
+
+![](presentation thing.png)
 
 ------------------------------------------------------------------------
 
